@@ -1,13 +1,12 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-var userSchema = ({
-	name: String,
-	meetings: [String]
-
+var schema = mongoose.Schema({
+  username: String,
+  meeting: [String]
 });
 
-module.exports = userSchema;
+var User = mongoose.model( 'user', schema);
+
+module.exports = User;
 
 /*
 TODO

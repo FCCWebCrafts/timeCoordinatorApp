@@ -8,7 +8,8 @@ body {
 }
 
 form {
- 	background:#111; 
+    /*original background color #111 changed by Thiago*/
+ 	background:#235; 
   width:300px;
   margin:30px auto;
   border-radius:0.4em;

@@ -5,13 +5,25 @@ app.config([
 	'$urlRouterProvider',
 	function($stateProvider, $urlRouterProvider) {
 		$stateProvider
+		.state('home', {
+			url: '/',
+			templateUrl: 'index.ejs',
+			// Which controller? TODO: write one.
+			controller: ''
+		})
+		.state('login', {
+			url: '/login',
+			templateUrl: 'views/login.html',
+			// Which controller? TODO: write one.
+			controller: ''
+		})
 		.state('dashboard', {
 			url: '/dashboard',
 			templateUrl: 'views/dashboard.html',
 			controller: 'DashCtrl'
 		})
 		.state('singleMeeting', {
-			url: '/meeting',
+			url: '/meeting/{id}',
 			templateUrl: 'views/singleMeeting.html',
 			controller: 'DashCtrl'
 		});	
@@ -36,7 +48,11 @@ function($scope, meetings){
 
   $scope.addMeeting = function() {
   	if (!$scope.title || $scope.title === '') {return;}
-  	$scope.meetings.push({title: $scope.title,  description: $scope.description, date : "test value for now.", admin : "test value for now."});
+  	$scope.meetings.push({
+  		title: $scope.title,  
+  		description: $scope.description, 
+  		date : "test value for now.", 
+  		admin : "test value for now."});
   	$scope.title = '';
   	$scope.description = '';
   };

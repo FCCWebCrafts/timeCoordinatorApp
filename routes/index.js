@@ -9,25 +9,19 @@ var passport = require('passport');
 
 router.route('/')
 	.get(function (req, res, next) {
-		res.render('index.jade', {title: 'Express' });
+		res.render('index.jade');
 	});
 // LOCAL strategy
 router.route('/login')
 	.get(function (req, res, next) {
-		res.render('login.html', {title: 'Login'});
+		res.render('login.jade', {title: 'Login'});
 	})
 	.post(passport.authenticate('local-login', {
 		successRedirect: '/profile',
 		failureRedirect: '/login',
 		failureFlash: true
 	}));
-// TWITTER routes
-router.route('/auth/twitter')
-	.get(passport.authenticate('twitter'));
-router.get('/auth/twitter/callback', passport.authenticate('twitter',{
-	successRedirect: '/profile',
-	failureRedirect: '/login'
-	}));
+
 
 router.route('/signup')
 	.get(function (req, res) {

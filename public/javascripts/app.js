@@ -7,7 +7,7 @@ app.config([
 		$stateProvider
 		.state('home', {
 			url: '/home',
-			templateUrl: '/home.html',
+			templateUrl: '/home.jade',
 			// Which controller? TODO: write one.
 			controller: ''
 		})
@@ -28,7 +28,7 @@ app.config([
 			}
 		})
 		.state('singleMeeting', {
-			url: '/meeting/{id}',
+			url: 'api/meeting/{id}',
 			templateUrl: 'views/singleMeeting.html',
 			controller: 'DashCtrl'
 			// need another controller here.

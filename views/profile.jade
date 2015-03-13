@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	h1= title
+	h2 Hello #{user.username}!
+	a(href="profile/edit") Edit Profile
+	p This will be the basic profile page for a user.
+	p They should be able to see all their meetings from one dashboard.
+	a(href="/auth/logout") Log out

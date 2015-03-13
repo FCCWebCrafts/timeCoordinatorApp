@@ -18,11 +18,14 @@ router.get('/', function(req, res, next) {
 router.use(isLoggedIn);
 
 function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
+	if (!req.isAuthenticated()) {
+		console.log("User is not logged in.");
+		// Changed to handle server-side unauthorized access to include Angular
+		res.sendStatus(401);
+	} else {
+		next();
 	}
-	console.log("User is not logged in.");
-	res.redirect('/login');
+	
 }
 
 // 		MEETINGS ROUTES

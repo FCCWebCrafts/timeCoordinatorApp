@@ -6,8 +6,8 @@ app.config([
 	function($stateProvider, $urlRouterProvider) {
 		$stateProvider
 		.state('home', {
-			url: '/',
-			templateUrl: 'index.ejs',
+			url: '/home',
+			templateUrl: '/home.html',
 			// Which controller? TODO: write one.
 			controller: ''
 		})
@@ -20,22 +20,32 @@ app.config([
 		.state('dashboard', {
 			url: '/dashboard',
 			templateUrl: 'views/dashboard.html',
-			controller: 'DashCtrl'
+			controller: 'DashCtrl',
+			resolve: {
+				postPromise: ['meetings', function(meetings) {
+					return meetings.getAll();
+				}]
+			}
 		})
 		.state('singleMeeting', {
 			url: '/meeting/{id}',
 			templateUrl: 'views/singleMeeting.html',
 			controller: 'DashCtrl'
+			// need another controller here.
 		});	
 		$urlRouterProvider.otherwise('home');
 	}]);
 
 // provides a list of meetings to other angular stuff that might need it
-app.factory('meetings', [function(){
-	var o = {
-		meetings: []
-		// can i get data from the database here??
-	};
+app.factory('meetings', ['$http', function($http){
+	  var o = {
+	  	meetings: []
+	  };
+	  o.getAll = function() {
+    	return $http.get('/api/meetings').success(function(data){
+      	angular.copy(data, o.meetings);
+    });
+  };
 	return o;
 
 }]);

@@ -9,7 +9,7 @@ var passport = require('passport');
 
 router.route('/')
 	.get(function (req, res, next) {
-		res.render('index.html', {title: 'Express' });
+		res.render('index.jade', {title: 'Express' });
 	});
 // LOCAL strategy
 router.route('/login')

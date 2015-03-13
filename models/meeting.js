@@ -7,21 +7,11 @@ var schema = mongoose.Schema({
   particpants: [String]
 }) ;
 
-<<<<<<< HEAD
+
 var meeting = mongoose.model( 'meeting', schema);
 
 module.exports = meeting;
-=======
-var meetingSchema = ({
-	name: String,
-	admin: String,
-	description: String,
-	date: Number,
-	participants: String
-});
 
-module.exports = mongoose.model('Meeting', meetingSchema);
->>>>>>> 72883ce7b22ff4e9c3c63bad31eee3417c42bf2f
 
 /*
 TODO

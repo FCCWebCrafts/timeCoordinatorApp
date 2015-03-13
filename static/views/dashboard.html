@@ -1,0 +1,16 @@
+<div class="page-header">
+    <h1>User Dashboard</h1>
+  </div>
+  <h2>Add meetings here.</h2>
+  <div ng-repeat="meeting in meetings | orderBy: upvotes">
+      {{meeting.title}} -- admin: {{meeting.admin}}
+      {{meeting.date}}
+      {{meeting.description}}
+    </div>
+    <form ng-submit="addMeeting()">
+      Name:
+      <input type="text" ng-model="title"></input>
+      Description:
+      <input type="text" ng-model="description"></input>
+      <button type="submit">Add Meeting</button>
+      </form>

@@ -36,7 +36,7 @@ exports.read = function(req, res) {
 // Can also use findByIdAndUpdate  ... 
 exports.update = function(req, res) {
 	// update the user object
-	User.findById(req.params.user_id, 'username meetings', function(err, user) {
+	User.findById(req.params.user_id, function(err, user) {
 		if (err) {
 			res.sendStatus(404);
 		}
@@ -45,6 +45,7 @@ exports.update = function(req, res) {
 			if (err) {
 				return res.status(400);
 			} 
+		res.location('back');
 		res.json(user);
 			
 		});

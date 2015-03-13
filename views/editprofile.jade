@@ -3,7 +3,7 @@ extends layout
 block content
 	h1 Edit Profile
 	h2 #{user.username}
-	form(action="/api/#{user._id}", method="post")
+	form(action="/api/users/#{user._id}", method="put")
 		p: label(for="username", name="username") User Name
 			input(id="username", name="username", type="text")
 		input(type="submit", name="submit", id="edituser", value="Edit Profile")

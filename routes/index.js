@@ -9,12 +9,12 @@ var passport = require('passport');
 
 router.route('/')
 	.get(function (req, res, next) {
-		res.render('index.ejs', {title: 'Express' });
+		res.render('index.html', {title: 'Express' });
 	});
 // LOCAL strategy
 router.route('/login')
 	.get(function (req, res, next) {
-		res.render('login.ejs', {title: 'Login'});
+		res.render('login.html', {title: 'Login'});
 	})
 	.post(passport.authenticate('local-login', {
 		successRedirect: '/profile',
@@ -31,7 +31,7 @@ router.get('/auth/twitter/callback', passport.authenticate('twitter',{
 
 router.route('/signup')
 	.get(function (req, res) {
-		res.render('signup.ejs', {message: req.flash('signupMessage')});
+		res.render('signup.jade', {message: req.flash('signupMessage')});
 	})
 	.post(passport.authenticate('local-signup', {
 		successRedirect: '/profile',
@@ -41,7 +41,7 @@ router.route('/signup')
 
 router.route('/profile')
 	.get(isLoggedIn, function (req, res) {
-		res.render('profile.ejs', {
+		res.render('profile.jade', {
 			// passes the user to the template from the user session
 			user: req.user
 		});

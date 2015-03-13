@@ -7,34 +7,19 @@
 var express = require('express');
 var router = express.Router();
 var meetings = require('../controllers/meetings');
-var users = require('../controllers/users');
 
 // API routes
 router.get('/', function(req, res, next) {
-  console.log("Show API documentation here.");
+  console.log("access API route.");
 });
-
-// requires a user to be logged in to access any API endpoints
-router.use(isLoggedIn);
-
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	console.log("User is not logged in.");
-	res.redirect('/login');
-}
 
 // 		MEETINGS ROUTES
 //	========================
-
-// one meeting
 router.route('/meetings/:meeting_id')
 	.get(meetings.read)
 	.put(meetings.update)
 	.delete(meetings.destroy);
 
-// all meetings / multiple meetings
 router.route('/meetings')
 	.post(meetings.create)
 	.get(meetings.list);
@@ -42,13 +27,16 @@ router.route('/meetings')
 // 		USERS ROUTES
 //	========================
 
-// one user profile
-
 router.route('/users/:user_id')
-	// only shows one user, and sanitizes the user information
-	// cannot create or delete users 
-	.get(users.read)
-	.put(users.update);
-
+	.get(function(req, res) {
+		//respond with a User object
+		var user = req.params.user_id;
+		res.send("respond with a User object, "+user);
+	})
+	.put(function(req, res) {
+		// modify a user
+		var user = req.params.user_id;
+		res.send("user "+user+" modified.");
+	});
 
 module.exports = router;

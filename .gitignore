@@ -1,4 +1,3 @@
 /node_modules
-nbproject/private/
-.env
-
+/bower_components
+/nbproject/private/

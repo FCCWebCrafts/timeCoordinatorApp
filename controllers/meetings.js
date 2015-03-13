@@ -14,12 +14,18 @@ var _ = require('lodash');
 
 /**
  * Create a meeting
- 	This will also save the admin field to match the user who created the meeting.
+ 	This will also save the user field to match the user who created the meeting.
  */
 exports.create = function(req, res) {
-	var meeting = new Meeting({});
-	meeting = _.assign(meeting, req.body);
-	meeting.admin = "This will eventually save the user id of the creator.";
+	var meeting = new Meeting({
+		name: req.body.name,
+		admin: req.user,
+		description: req.body.description,
+		date: Date.now(),
+		participants: req.body.participants
+
+	});
+
 	meeting.save(function(err) {
 		if (err) {
 			return res.status(400);
@@ -30,19 +36,15 @@ exports.create = function(req, res) {
 };
 
 /**
- * Shows ONE meeting (list shows all meetings or <<TODO>> allows filtering)
+ * Show the current meeting
  */
 exports.read = function(req, res) {
 	Meeting.findById(req.params.meeting_id, function(err, meeting) {
 		if (err) {
 			res.send(404)
 		}
-		if (!meeting) {
-			res.status(404).send("This meeting does not exist.");
-		} else {
 		res.json(meeting);
-	}
-	});
+	})
 };
 
 // Can also use findByIdAndUpdate  ... 
@@ -52,7 +54,7 @@ exports.update = function(req, res) {
 		if (err) {
 			res.send(404);
 		}
-		meeting = _.assign(meeting, req.body);
+		meeting = _.extend(meeting, req.body);
 		meeting.save(function(err) {
 			if (err) {
 				return res.status(400);

@@ -1,14 +1,15 @@
 * { box-sizing: border-box; padding:0; margin: 0; }
 
 body {
-	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
   color:white;
   font-size:12px;
   background:#333 ;
 }
 
 form {
- 	background:#111; 
+  /* original color #111 changed by Thiago */
+  background:#235;
   width:300px;
   margin:30px auto;
   border-radius:0.4em;
@@ -42,7 +43,7 @@ form:before {
 }
 
 .inset {
- 	padding:20px; 
+ 	padding:20px;
   border-top:1px solid #19191a;
 }
 
@@ -79,6 +80,7 @@ label {
 
 input[type=text],
 input[type=password] {
+  color: white;
  	width:100%;
   padding:8px 5px;
   background:linear-gradient(#1f2124, #27292c);
@@ -92,17 +94,16 @@ input[type=password] {
 label[for=remember]{
  	color:white;
   display:inline-block;
-  padding-bottom:0;
-  padding-top:5px;
+  padding-bottom:20;
 }
 
 input[type=checkbox] {
  	display:inline-block;
-  vertical-align:top;
+  vertical-align:bottom;
 }
 
 .p-container {
- 	padding:0 20px 20px 20px; 
+ 	padding:0 20px 20px 20px;
 }
 
 .p-container:after {

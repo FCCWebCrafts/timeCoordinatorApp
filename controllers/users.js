@@ -19,7 +19,7 @@ var _ = require('lodash');
  * 	(i.e. does not show passwords or sensitive data)
  */
 exports.read = function(req, res) {
-	User.findById(req.params.user_id, 'username', 'meetings', '_id', function(err, users) {
+	User.findById(req.params.user_id, 'username meetings- _id', function(err, user) {
 		if (err) {
 			res.send(404)
 		}
@@ -28,7 +28,7 @@ exports.read = function(req, res) {
 		} else {
 			// maybe add some contact info so people can get in touch?
 			// the query ONLY sends back the username and meetings
-			res.jsonp(users);
+			res.json(user);
 	}
 	});
 };

@@ -86,7 +86,7 @@ module.exports = function(passport) {
 	passport.use(new TwitterStrategy(secrets.twitter,
 	function(token, tokenSecret, profile, done) {
 		process.nextTick(function() {
-			User.findOne({ 'twitter.id' : user.id }, function (err, user) {
+			User.findOne({ 'twitter.id' : profile.id }, function (err, user) {
 				if (err)
 					return done(err);
 				// if the user already exists, log them in

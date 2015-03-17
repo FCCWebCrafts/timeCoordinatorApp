@@ -22,7 +22,10 @@ var api = require('./routes/api');
 
 var app = express();
 
-app.use(session({ secret: 'FCC is the best' })); // session secret
+app.use(session({ secret: 'FCC is the best',
+                resave: false,
+                saveUninitialized: false
+                })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session

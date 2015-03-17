@@ -79,7 +79,8 @@ label {
 }
 
 input[type=text],
-input[type=password] {
+input[type=password],
+input[type=email]{
   color: white;
  	width:100%;
   padding:8px 5px;

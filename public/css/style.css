@@ -120,6 +120,10 @@ input[type=checkbox] {
   padding-top:8px;
 }
 
+a {
+  padding-left: 20px;
+}
+
 input[type=submit] {
  	padding:5px 20px;
   border:1px solid rgba(0,0,0,0.4);

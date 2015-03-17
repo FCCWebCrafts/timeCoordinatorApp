@@ -25,7 +25,7 @@ router.route('/signup')
 
 router.route('/login')
 	.get(function (req, res, next) {
-		res.render('login.jade', {title: 'Login'});
+		res.render('login', {title: 'Login'});
 	})
 	.post(passport.authenticate('local-login', {
 		successRedirect: '/profile',
@@ -36,7 +36,7 @@ router.route('/login')
 
 router.route('/profile')
 	.get(isLoggedIn, function (req, res) {
-		res.render('profile.jade', {
+		res.render('profile', {
 			// passes the user to the template from the user session
 			user: req.user
 		});
@@ -44,7 +44,7 @@ router.route('/profile')
 
 router.route('/profile/edit')
 	.get(isLoggedIn, function(req, res) {
-		res.render('editprofile.jade', {
+		res.render('editprofile', {
 			user: req.user
 		});
 	});

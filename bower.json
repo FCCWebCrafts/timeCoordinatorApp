@@ -1,0 +1,9 @@
+{
+  "name": "timeCoordinatorApp",
+  "dependencies": {
+    "angular": "~1.3.14",
+    "angular-ui-router": "~0.2.13",
+    "angular-resource": "~1.3.14"
+  },
+  "devDependencies": {}
+}

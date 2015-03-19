@@ -1,12 +1,15 @@
-angular.module('timeApp', ['ngResource'])
+angular.module('timeApp', [])
 
-  .factory('User',['$resource', function($resource) {
-    return $resource('../api/users/');
-  }])
+.controller('UserController', function($scope, $http){
+  $http.get('/profile/user')
+  .success(function(data, status, header, config){
+    $scope.user = data;
+    $scope.error = '';
+  })
+  .error(function(data, status, header, config){
+    $scope.user = '';
+    $scope.error = data;
+  })
+})
 
-  .controller('timeApp.UserController', function($resource, User) {
-  User.query(function(data) {
-    $scope.user = data.username;
-  });
-});
 

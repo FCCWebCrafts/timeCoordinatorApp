@@ -1,11 +1,23 @@
 extends layout
 
 block content
-  div(ng-controller='timeApp.UserController')
+  div(ng-controller='UserController')
   h1= title
-  h2 Hello #{username} !
+  h2 Hello #{user.name}!
   a(href="profile/edit") Edit Profile
+  a(href="/logout") Log out
   p This will be the basic profile page for a user.
+  div
+  input(type='text' name='name' ng-model="user.name")
+  p #{user.name}
+  p #{user.local.email}
   p They should be able to see all their meetings from one dashboard.
-  a(href="/auth/logout") Log out
+  div.meeting-box
+    form(action='api/meetings' method='POST')
+      h3 Create a Meetings
+      label Name
+      input(type='text' name='name')
+      label Desciption
+      textarea(row='4' col='150' name='description')
+      input(type='submit' value='Meeting')
   script(scr='/js/myapp.js')

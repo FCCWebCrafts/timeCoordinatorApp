@@ -6,7 +6,7 @@ var meetingSchema = mongoose.Schema({
 	admin: String,
 	description: String,
 	date: Number,
-	participants: String
+	participants: [String]
 });
 
 module.exports = mongoose.model('Meeting', meetingSchema);

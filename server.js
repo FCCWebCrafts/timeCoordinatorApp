@@ -19,7 +19,7 @@ var port = process.env.PORT || 8080;
 
 
 // route files
-var routes = require('./routes/index');
+var routes = require('./routes/routes');
 var auth = require('./routes/auth');
 var api = require('./routes/api');
 

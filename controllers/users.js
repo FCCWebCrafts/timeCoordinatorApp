@@ -18,8 +18,11 @@ var _ = require('lodash');
  * Shows ONE User's information, and ONLY shows safe information 
  * 	(i.e. does not show passwords or sensitive data)
  */
+
+
+
 exports.read = function(req, res) {
-	User.findById(req.params.user_id, 'username meetings- _id', function(err, user) {
+	User.findById(req.user._id, 'username meetings- _id', function(err, user) {
 		if (err) {
 			res.send(404)
 		}
@@ -28,7 +31,7 @@ exports.read = function(req, res) {
 		} else {
 			// maybe add some contact info so people can get in touch?
 			// the query ONLY sends back the username and meetings
-			res.json(user);
+			res.json(req.user);
 	}
 	});
 };
@@ -36,11 +39,11 @@ exports.read = function(req, res) {
 // Can also use findByIdAndUpdate  ... 
 exports.update = function(req, res) {
 	// update the user object
-	User.findById(req.params.user_id, function(err, user) {
+	User.findById(req.user._id, function(err, user) {
 		if (err) {
 			res.sendStatus(404);
 		}
-		user = _.assign(user, req.body);
+		user.set('name', req.body);
 		user.save(function(err) {
 			if (err) {
 				return res.status(400);

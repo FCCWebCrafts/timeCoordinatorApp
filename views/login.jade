@@ -10,7 +10,8 @@ block content
       input(type="password", name="password", id="password")
       p: label(for="remember") Remember Me 
       input(type="checkbox", name="remember", id="remember")
-      p.p-container: span 
+      p.p-container: span
+        a(href='/auth/twitter'): img(src="/img/sign-in-with-twitter-l.png")
         a(href='/signup') SignUp 
         a(href="#") Forgot Password?
       input(type="submit", name="go", id="go", value="Log In")

@@ -18,13 +18,16 @@ var _ = require('lodash');
  */
 exports.create = function(req, res) {
 	var meeting = new Meeting({});
-	meeting = _.assign(meeting, req.body);
-	meeting.admin = "This will eventually save the user id of the creator.";
+	meeting.name = req.body.name;
+    meeting.description = req.body.description;
+    meeting.date = new Date();
+	meeting.admin = req.user._id;
 	meeting.save(function(err) {
 		if (err) {
 			return res.status(400);
 		} else {
 			res.json(meeting);
+            res.redirect('/profile')
 		}
 	});
 };

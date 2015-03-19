@@ -25,9 +25,9 @@ router.post('/login', passport.authenticate('local-login', {
   failureFlash : true // allow flash messages
 }));
 
-// =====================================
+
 // SIGNUP ==============================
-// =====================================
+
 // show the signup form
 router.get('/signup', function(req, res) {
 
@@ -42,26 +42,20 @@ router.post('/signup', passport.authenticate('local-signup',{
   failureFlash : true // allow flash messages
 }));
 
-// =====================================
+
 // PROFILE SECTION =====================
-// =====================================
 
 router.get('/profile', isLoggedIn, function(req, res) {
-  console.log(req.isAuthenticated());
-  console.log(req.user.local.email);
   res.render('profile', {user : req.user});
-}).post('/api/meeting', meetings.create, {
-  successRedirect: '/profile',
-  failureRedirect: '/profile'
-
 });
+
 router.get('/profile/user', isLoggedIn, function(req, res){
   
   res.json(req.user);
 });
-// =====================================
+
 // LOGOUT ==============================
-// =====================================
+
 router.get('/logout', function(req, res) {
  
   req.logout(); 

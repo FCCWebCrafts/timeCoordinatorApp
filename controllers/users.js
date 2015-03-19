@@ -22,7 +22,7 @@ var _ = require('lodash');
 
 
 exports.read = function(req, res) {
-	User.findById(req.user._id, 'username meetings- _id', function(err, user) {
+	User.findById(req.user._id, function(err, user) {
 		if (err) {
 			res.send(404)
 		}
@@ -30,8 +30,12 @@ exports.read = function(req, res) {
 			res.status(404).send("This user does not exist.");
 		} else {
 			// maybe add some contact info so people can get in touch?
+          user = {};
+          user.name = req.user.name;
+          user.meetings = req.user.meetings;
+          user._id = req.user._id;
 			// the query ONLY sends back the username and meetings
-			res.json(req.user);
+			res.json(user);
 	}
 	});
 };

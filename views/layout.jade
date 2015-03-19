@@ -1,7 +1,11 @@
 doctype html
 html
   head
+    script(src='lib/angular.js')
+    script(src='lib/angular-ui-router.js')
+    script(src='lib/angular-resource.js')
+    script(src='js/app.js')
     title= title
     link(rel='stylesheet', href='/css/style.css')
-  body
+    body(ng-app='timeApp')
     block content

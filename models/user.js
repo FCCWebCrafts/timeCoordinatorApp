@@ -25,7 +25,7 @@ var userSchema = mongoose.Schema({
 		name: String
 	},
 
-	username: String,
+	name: String,
 	meetings: [String]
 
 });

@@ -3,26 +3,35 @@ require('dotenv').load();
 
 
 var express = require('express');
+var http = require('http');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var mongoStore = require('connect-mongo')(session)
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var passport = require('passport');
 
 var port = process.env.PORT || 8080;
-var session = require('express-session')
+
 
 // route files
-var routes = require('./routes/index');
+var routes = require('./routes/routes');
 var auth = require('./routes/auth');
 var api = require('./routes/api');
 
 var app = express();
 
-app.use(session({ secret: 'FCC is the best' })); // session secret
+app.use(session({ 
+  secret: 'FCC is the best',
+  resave: true,
+  saveUninitialized: false,
+  cookie: {maxAge: 60*60*1000},
+  store: new mongoStore ({mongooseConnection: mongoose.connection})
+  })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -84,6 +93,14 @@ app.use(function(err, req, res, next) {
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
 db = mongoose.connection;
+
+//======= fake data ===========
+var faker = require('faker');
+var user={
+  username: faker.internet.userName(),
+  email: faker.internet.email(),
+  password: faker.internet.password()
+};
 
 // confirmation and error messaging
 db.on('error', console.error.bind(console, 'connection error:'));

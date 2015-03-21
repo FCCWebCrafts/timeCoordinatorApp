@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  form(action="/signup" method="post")
+    h1 User Log In
+    .inset
+      p: label(for='name') Username:
+      input(type='text' name='name' id='name')
+      p: label(for="email") Email Address:
+      input(type="text" name="email"  id="email")
+      p: label(for="password") Password:
+      input(type="password" name="password" id="password")
+      p: label(for="remember")
+
+      p: a(href='/auth/twitter')
+        img(src='/img/twitter-link.png')
+
+    input(type="submit" value="Log In")

@@ -1,54 +1,52 @@
 var express = require('express');
 var router = express.Router();
-// import index controller
-var index = require('../controllers/index.js');
 // give access to the auth strategies we wrote in config/passport 
 var passport = require('passport');
+var users = require('../controllers/users');
 
 // Routes for index 
 
 router.route('/')
 	.get(function (req, res, next) {
-		res.render('index.jade', {title: 'Express' });
+		res.render('login', {name: req.user });
 	});
 
 // LOCAL strategy sign up 
 router.route('/signup')
 	.get(function (req, res) {
-		res.render('signup.jade', {message: req.flash('signupMessage')});
+		res.render('signup', {message: req.flash('signupMessage')});
 	})
 	.post(passport.authenticate('local-signup', {
-		successRedirect: '/profile',
-		failureRedirect: '/signup',
+		successRedirect: 'profile',
+		failureRedirect: 'signup',
 		failureFlash: true
 	}));
 
 router.route('/login')
 	.get(function (req, res, next) {
-		res.render('login.jade', {title: 'Login'});
+		res.render('login', {title: 'Login'});
 	})
 	.post(passport.authenticate('local-login', {
-		successRedirect: '/profile',
-		failureRedirect: '/login',
+		successRedirect: 'profile',
+		failureRedirect: 'login',
 		failureFlash: true
 	}));
 
 
 router.route('/profile')
 	.get(isLoggedIn, function (req, res) {
-		res.render('profile.jade', {
+		res.render('profile', {
 			// passes the user to the template from the user session
 			user: req.user
 		});
-});
+    });
 
-router.route('/profile/edit')
-	.get(isLoggedIn, function(req, res) {
-		res.render('editprofile.jade', {
+router.get('/profile/edit', isLoggedIn, function(req, res) {
+		res.render('editprofile', {
 			user: req.user
 		});
-	});
-
+	})
+    .post('/profile/edit/update', users.editProfile);
 
 router.route('/logout')
 	.get(function (req, res) {
@@ -61,7 +59,7 @@ function isLoggedIn(req, res, next) {
 		return next();
 	}
 	console.log("User is not logged in.");
-	res.redirect('/login');
+	res.redirect('login');
 }
 
 module.exports = router;

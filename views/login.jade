@@ -1,14 +1,16 @@
 extends layout
 
 block content
-	form(action="/login", method="post")
-		h1 User Log In
-		.inset
-			p: label(for="email") Email Address
-				input(type="text", name="email", id="email")
-			p: label(for="password") Password
-				input(type="password", name="password", id="password")
-			p: label(for="remember") Remember Me 
-				input(type="checkbox", name="remember", id="remember")
-			p.p-container: span: a(href="#") Forgot Password?
-			input(type="submit", name="go", id="go", value="Log In")
+  form(action="/login", method="post")
+    h1 User Log In
+    .inset
+      p: label(for="email") Email Address
+      input(type="text" name="email" id="email")
+      p: label(for="password") Password
+      input(type="password" name="password" id="password")
+      p: label(for="remember") Remember Me 
+      input(type="checkbox" name="remember" id="remember")
+      p.p-container: span
+        a(href='/signup') SignUp
+        a(href="#") Forgot Password?
+      input(type="submit" value="Log In")

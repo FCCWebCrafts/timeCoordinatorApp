@@ -57,6 +57,21 @@ exports.update = function(req, res) {
 			
 		});
 	});
-	
+};
+
+exports.editProfile = function(req, res) {
+  User.findOne({_id: req.user})
+  .exec(function(err, user) {
+    user.set('name', req.body.name);
+    user.set('email', req.body.email);
+    user.save(function(err) {
+      if(err){
+        res.session.error =err;
+      } else {
+        req.session.msg = 'User Updated.';
+      }
+      res.redirect('/profile/edit');
+    });
+  });
 };
 

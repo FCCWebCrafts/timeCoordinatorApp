@@ -5,7 +5,7 @@ block content
     h2 #{user.name}
     form(action="/profile/edit/update" method="post")
       p: label(for="name" name="username") Username:
-      input(id="name" name="name" type="text")
+      input(id="name" name="name" type="text" value="#{user.name}")
       input(type="submit" name="submit" id="name" value="Edit Profile")
     a(href='/profile') back to profile
 

@@ -1,22 +1,41 @@
 * { box-sizing: border-box; padding:0; margin: 0; }
+#map {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+}
+
+#map img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+}
 
 body {
   font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
   color:white;
   font-size:12px;
-  background:#333 ;
+  background:#333;
 }
 
 form {
   /* original color #111 changed by Thiago */
   background:#235;
   width:300px;
+  height: 500px;
   margin:30px auto;
   border-radius:0.4em;
   border:1px solid #191919;
   overflow:hidden;
   position:relative;
-  box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 25px 10px 10px rgba(0,0,0,0.6);
 }
 
 form:after {
@@ -31,7 +50,7 @@ form:after {
 }
 
 form:before {
- 	content:"";
+  content:"";
   display:block;
   position:absolute;
   width:8px;
@@ -43,7 +62,7 @@ form:before {
 }
 
 .inset {
- 	padding:20px;
+  padding:20px;
   border-top:1px solid #19191a;
 }
 
@@ -57,7 +76,7 @@ form h1 {
 }
 
 form h1:after {
- 	content:"";
+  content:"";
   display:block;
   width:250px;
   height:100px;
@@ -68,12 +87,12 @@ form h1:after {
   transform:rotate(70deg);
   -webkit-transform: rotate(70deg);
   background:linear-gradient(50deg, rgba(255,255,255,0.15), rgba(0,0,0,0));
-   background-image: -webkit-linear-gradient(50deg, rgba(255,255,255,0.05), rgba(0,0,0,0)); /* For Safari */
+  background-image: -webkit-linear-gradient(50deg, rgba(255,255,255,0.05), rgba(0,0,0,0)); /* For Safari */
 
 }
 
 label {
- 	color:#666;
+  color:white;
   display:block;
   padding-bottom:9px;
 }
@@ -81,46 +100,52 @@ label {
 input[type=text],
 input[type=password] {
   color: white;
- 	width:100%;
+  width:100%;
   padding:8px 5px;
   background:linear-gradient(#1f2124, #27292c);
   border:1px solid #222;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.1);   
   border-radius:0.3em;
   margin-bottom:20px;
 }
 
 label[for=remember]{
- 	color:white;
+  color:white;
   display:inline-block;
   padding-bottom:20;
 }
 
 input[type=checkbox] {
- 	display:inline-block;
+  display:inline-block;
   vertical-align:bottom;
 }
 
-.p-container {
- 	padding:0 20px 20px 20px;
-}
-
 .p-container:after {
- 	clear:both;
+  clear:both;
   display:table;
   content:"";
 }
 
-.p-container span {
-  display:block;
-  float:left;
-  color:#0d93ff;
-  padding-top:8px;
+.userlogin {
+ 	padding:0 10px 25px 10px;	
 }
 
+.facebooklog {
+   padding: 0 10px 10px 10px;
+}
+
+.googlelog {
+   padding: 0 10px 10px 10px;
+}
+
+.yahoolog {
+   padding: 0 10px 10px 10px;
+}
+.forgotpassword {
+   padding: 0 10px 10px 10px;
+}
 input[type=submit] {
- 	padding:5px 20px;
+  padding:5px 20px;
   border:1px solid rgba(0,0,0,0.4);
   text-shadow:0 -1px 0 rgba(0,0,0,0.4);
   box-shadow:
@@ -129,7 +154,9 @@ input[type=submit] {
   border-radius:0.3em;
   background:#0184ff;
   color:white;
-  float:right;
+  display: block;
+  width: 100%;
+  float:center;
   font-weight:bold;
   cursor:pointer;
   font-size:13px;

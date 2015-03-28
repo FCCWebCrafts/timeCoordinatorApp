@@ -85,94 +85,99 @@ module.exports = function(passport) {
 	*
 	*/
 
-	passport.use(new TwitterStrategy({
-		consumerKey: secrets.twitter.consumerKey,
-		consumerSecret: secrets.twitter.consumerSecret,
-		callbackURL: secrets.twitter.callbackURL
-	},
-	function(token, tokenSecret, profile, done) {
-		process.nextTick(function() {
-			User.findOne({ 'twitter.id' : profile.id }, function (err, user) {
-				if (err)
-					return done(err);
-				// if the user already exists, log them in
-				if (user) {
-					return done(null, user);
-				// if they don't exist yet, then add them to the database
-				} else {
-					var newUser = new User();
-					newUser.twitter.id = profile.id;
-					newUser.twitter.token = token;
-					newUser.twitter.username = profile.username;
-					newUser.twitter.displayName = profile.displayName;
+    if (secrets.twitter.consumerKey) {
+    	passport.use(new TwitterStrategy({
+    		consumerKey: secrets.twitter.consumerKey,
+    		consumerSecret: secrets.twitter.consumerSecret,
+    		callbackURL: secrets.twitter.callbackURL
+    	},
+    	function(token, tokenSecret, profile, done) {
+    		process.nextTick(function() {
+    			User.findOne({ 'twitter.id' : profile.id }, function (err, user) {
+    				if (err)
+    					return done(err);
+    				// if the user already exists, log them in
+    				if (user) {
+    					return done(null, user);
+    				// if they don't exist yet, then add them to the database
+    				} else {
+    					var newUser = new User();
+    					newUser.twitter.id = profile.id;
+    					newUser.twitter.token = token;
+    					newUser.twitter.username = profile.username;
+    					newUser.twitter.displayName = profile.displayName;
 
-					newUser.save(function(err) {
-						if (err)
-							throw err;
-						return done(null, newUser);
-					});
-				}
-			});
-		});
-	}));
+    					newUser.save(function(err) {
+    						if (err)
+    							throw err;
+    						return done(null, newUser);
+    					});
+    				}
+    			});
+    		});
+    	}));
+    }
 
 	// facebook login strategy
-	passport.use(new FacebookStrategy(secrets.facebook, function(token, refreshToken, profile, done) {
-		process.nextTick(function() {
-			User.findOne({ 'facebook.id' : profile.id }, function (err, user) {
-				if (err) 
-					return done(err);
-				if (user) {
-					return done(null, user);
-				} else {
-					var newUser = new User();
-					newUser.facebook.id    = profile.id;                  
-                    newUser.facebook.token = token;              
-                    newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; 
-                    newUser.facebook.email = profile.emails[0].value; 
+	if (secrets.facebook.clientID) {
+        passport.use(new FacebookStrategy(secrets.facebook, function(token, refreshToken, profile, done) {
+    		process.nextTick(function() {
+    			User.findOne({ 'facebook.id' : profile.id }, function (err, user) {
+    				if (err)
+    					return done(err);
+    				if (user) {
+    					return done(null, user);
+    				} else {
+    					var newUser = new User();
+    					newUser.facebook.id    = profile.id;
+                        newUser.facebook.token = token;
+                        newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                        newUser.facebook.email = profile.emails[0].value;
 
-                    newUser.save(function(err) {
-                    	if (err)
-                    		throw err;
-                    	return done(null, newUser);
-                    });
-				}
-			});
-		});
-	}));
+                        newUser.save(function(err) {
+                        	if (err)
+                        		throw err;
+                        	return done(null, newUser);
+                        });
+    				}
+    			});
+    		});
+    	}));
+    }
 
-	passport.use(new GoogleStrategy(secrets.google,
-    function(token, refreshToken, profile, done) {
+    if (secrets.google.clientID) {
+    	passport.use(new GoogleStrategy(secrets.google,
+        function(token, refreshToken, profile, done) {
 
-        process.nextTick(function() {
-        	console.log("profile: "+JSON.stringify(profile));
-            User.findOne({ 'google.id' : profile.id }, function(err, user) {
-                if (err)
-                    return done(err);
+            process.nextTick(function() {
+            	console.log("profile: "+JSON.stringify(profile));
+                User.findOne({ 'google.id' : profile.id }, function(err, user) {
+                    if (err)
+                        return done(err);
 
-                if (user) {
+                    if (user) {
 
-                    // if a user is found, log them in
-                    return done(null, user);
-                } else {
-                    // if the user isn't in our database, create a new user
-                    var newUser          = new User();
+                        // if a user is found, log them in
+                        return done(null, user);
+                    } else {
+                        // if the user isn't in our database, create a new user
+                        var newUser          = new User();
 
-                    // set all of the relevant information
-                    newUser.google.id    = profile.id;
-                    newUser.google.token = token;
-                    newUser.google.name  = profile.displayName;
-                    newUser.google.email = profile.emails[0].value; 
+                        // set all of the relevant information
+                        newUser.google.id    = profile.id;
+                        newUser.google.token = token;
+                        newUser.google.name  = profile.displayName;
+                        newUser.google.email = profile.emails[0].value;
 
-                    // save the user
-                    newUser.save(function(err) {
-                        if (err)
-                            throw err;
-                        return done(null, newUser);
-                    });
-                }
+                        // save the user
+                        newUser.save(function(err) {
+                            if (err)
+                                throw err;
+                            return done(null, newUser);
+                        });
+                    }
+                });
             });
-        });
-
-    }));
+        }));
+    }
 };

@@ -17,6 +17,8 @@
     "dotenv": "^0.5.1",
     "express": "~4.12.0",
     "express-session": "^1.10.3",
+    "gulp": "^3.8.11",
+    "gulp-nodemon": "^2.0.2",
     "jade": "~1.9.2",
     "lodash": "^3.5.0",
     "mongoose": "^3.8.24",

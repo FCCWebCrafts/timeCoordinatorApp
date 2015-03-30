@@ -37,7 +37,8 @@ db.once('open', function (callback) {
 app.use(session({ secret: 'FCC is the best',
   resave: false,
   saveUninitialized: false,
-  store: new mongoStore({mongooseConnection: mongoose.connection})
+  store: new mongoStore({mongooseConnection: mongoose.connection}),
+  cookie:{maxAge: 60000 * 30 } // 60000 = 1 minute
                 })); // session secret
 
 

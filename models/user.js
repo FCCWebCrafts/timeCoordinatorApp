@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var deepPopulate = require('mongoose-deep-populate');
 var Schema = mongoose.Schema;
 
 var userSchema = mongoose.Schema({
@@ -36,6 +37,15 @@ userSchema.methods.generateHash = function(password) {
 userSchema.methods.validPassword = function(password) {
 	return bcrypt.compareSync(password, this.local.password);
 };
-
+userSchema.plugin(deepPopulate,{ 
+  populate: {
+    'meetings.admin' : {
+      select: 'name'
+    },
+    'meetings.participants': {
+      select: 'name'
+    }
+  }
+});
 module.exports = mongoose.model('User', userSchema);
 

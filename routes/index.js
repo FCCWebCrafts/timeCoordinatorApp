@@ -6,14 +6,14 @@ var User = require('../models/user');
 var users = require('../controllers/users');
 var meetings = require('../controllers/meetings');
 
-// Routes for index
+// Routes for index 
 
 router.route('/')
 	.get(function (req, res, next) {
 		res.render('login');
 	});
 
-// LOCAL strategy sign up
+// LOCAL strategy sign up 
 router.route('/signup')
 	.get(function (req, res) {
 		res.render('signup', {message: req.flash('signupMessage')});
@@ -37,18 +37,9 @@ router.route('/login')
 
 router.route('/profile')
   .get(isLoggedIn, function (req, res) {
-    res.render('profile', {user: req.user});
+  res.render('profile', {user: req.user});
   });
 
-router.get('/profile/user', isLoggedIn, function(req, res) {
-  User.findById(req.user._id).populate('meetings').exec(function(err, user) {
-    if (err) {
-      return res.sendStatus(404);
-    } else {
-    res.json(user);
-    }
-  });
-});
 
 router.get('/profile/edit', isLoggedIn, function(req, res) {
 		res.render('editprofile', {user: req.user});

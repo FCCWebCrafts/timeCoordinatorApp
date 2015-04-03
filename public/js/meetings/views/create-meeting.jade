@@ -1,0 +1,10 @@
+div
+  form(name='postForm' ng-submit='saveMeeting()' role='form')
+    label(for='name' ) Meeting Name
+    input(type='text' name='name' ng-model='newmeeting.name' ng-required='true' placeholder='Name')
+    label(for='description') Description
+    textarea(name='description' ng-model='newmeeting.description' ng-required='false' placeholder="Description")
+    label(for='Date') Date
+    input(type='date' ng-model='newmeeting.date')
+    button.btn.btn-success(type='submit') {{buttonText}}
+    

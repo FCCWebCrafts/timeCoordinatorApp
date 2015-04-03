@@ -1,0 +1,10 @@
+div
+  button.btn.pull-right(ng-click="toggleEditMode(singlemeeting)") {{editmode ? 'Disable Editing' : 'Enable Editing'}}
+  h3(ng-model='singlemeeting.name' ng-attr-contenteditable='{{editmode}}') {{singlemeeting.name}}
+  p Date: {{singlemeeting.date | date: 'd MMM, y'}}
+  input(type='date' ng-model='singlemeeting.date')
+  p Admin: {{singlemeeting.admin[0].name}}
+  p(ng-model='singlemeeting.description' ng-attr-contenteditable='{{editmode}}') {{singlemeeting.description}}
+  ul(ng-repeat='participant in participants') Participants:
+    li {{participant.name}}
+  

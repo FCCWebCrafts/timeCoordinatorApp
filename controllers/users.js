@@ -10,18 +10,14 @@ var _ = require('lodash');
  * 	(i.e. does not show passwords or sensitive data)
  */
 exports.read = function(req, res) {
-	User.findById(req.params.user_id, function(err, user) {
+	User.findById(req.params.user_id).exec(function(err, user) {
 		if (err) {
-			res.send(404)
+			return res.status(404);
 		}
 		if (!user) {
-			res.status(404).send("This user does not exist.");
+			return res.status(404).send("This user does not exist.");
 		} else {
-			var o = {
-				name: user.name,
-				meetings: user.meetings
-			};
-			res.json(o);
+			res.json(user);
 		}
 	});
 };
@@ -30,7 +26,7 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
 	// update the user object
 	console.log("hitting the put function");
-	User.findById(req.params.user_id, function(err, user) {
+	User.findById(req.params.user_id).exec(function(err, user) {
 		if (err) {
 			res.sendStatus(404);
 		}
@@ -41,18 +37,14 @@ exports.update = function(req, res) {
 			if (err) {
 				return res.status(400);
 			} else {
-				var o = {
-					name: user.name,
-					meetings: user.meetings
-				};
-				res.json(o);
+				res.json(user);
 			}
 		});
 	});
 };
 
 exports.editProfile = function(req, res) {
-  User.findOne({_id: req.user})
+  User.findOne({user_id: req.user})
   .exec(function(err, user) {
     user.set('name', req.body.name);
     user.set('local.email', req.body.email);

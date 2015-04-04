@@ -1,26 +1,24 @@
 extends layout
 
 block content
+
   h1= title
   h2 Hello #{user.name}!
   a(href="/logout") Log out
-  .row(ng-controller="UserController")
-    .col-md-5.display-box
-      h3 Your Information
-      #{message}
-      .inset
-      a(href="profile/edit") Edit Profile
-      h5 {{user.name}}
-      p {{user.local.email}}
-      p This will be the basic profile page for a user.
-    .col-md-5.col-md-offset-2.display-box
+  .row
+    .col-md-4.display-box(ng-controller='UserController')
+        h3 Your Information
+        #{message}
+        .inset
+        a(href="profile/edit") Edit Profile
+        h5 {{user.name}}
+        p {{user.local.email}}
+        p This will be the basic profile page for a user
+    .col-md-7.col-md-offset-1.display-box
       h3 Your meetings
       .inset
       a(ui-sref='upcomingmeetings') Upcoming meetings
       a(ui-sref='createmeetings') Create A New Meeting
       div(ui-view)
-     
-      
-        
-      
-      
+  script(type='text/javascript')
+    |window.user = "#{user.id || 'null'}";

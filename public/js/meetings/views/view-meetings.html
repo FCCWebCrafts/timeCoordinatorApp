@@ -1,0 +1,1 @@
+<div ng-repeat="meeting in meetings"><div class="row"><h3><a ui-sref="singlemeeting({id: meeting._id})">{{meeting.name}}</a></h3><p>admin: {{meeting.admin[0].name}}</p><p>description: {{meeting.description}}</p><p>date: {{meeting.date | date: 'd MMM y'}}</p></div><a ng-click="deleteMeeting(meeting)" class="pull-right btn btn-danger">Delete</a></div>

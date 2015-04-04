@@ -80,7 +80,9 @@ label {
 
 input[type=text],
 input[type=password],
-input[type=email]{
+input[type=email],
+input[type=date],
+textarea{
   color: white;
   width:100%;
   padding:8px 5px;

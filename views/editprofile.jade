@@ -1,9 +1,11 @@
 extends layout
 
 block content
-	h1 Edit Profile
-	h2 #{user.username}
-	form(action="/api/users/#{user._id}", method="put")
-		p: label(for="username", name="username") User Name
-			input(id="username", name="username", type="text")
-		input(type="submit", name="submit", id="edituser", value="Edit Profile")
+    h1 Edit Profile
+    h2 #{user.name}
+    form(action="/profile/edit/update" method="post")
+      p: label(for="name" name="username") Username:
+      input(id="name" name="name" type="text")
+      input(type="submit" name="submit" id="name" value="Edit Profile")
+    a(href='/profile') back to profile
+

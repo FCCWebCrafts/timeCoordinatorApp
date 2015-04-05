@@ -1,0 +1,81 @@
+API Documentation
+
+The API for this application allows users to remotely access information on the database and check in on their meeting planning.
+
+To access the API, you need an account with our service. All of the API routes are protected and users need to be logged into access them.
+
+Here's what they can do for you:
+
+##Meetings
+#Multiple Meetings:
+/api/meetings
+
+#GET 
+Currently a GET request to /api/meetings returns all of the meetings in the database.
+TODO - This should return only meetings that the current, logged-in user is a member of (called through a populated user.meetings array).
+
+Meetings are formatted as a JSON, with the following fields:
+name - String, which contains the meeting name.
+admin - Array of User ids. When a single meeting is called, this field is populated with references to the whole User objects.
+description - String, a description of the meeting.
+date - Date, the date the meeting is going to be held.
+participants - Array of User Ids. This is also populated when a single meeting is retrieved, but not multiple meetings.
+lastUpdated - Date, whenever the meeting information is updated, this date is refreshed.
+availability - Array of availability objects.
+
+Availability objects have three fields:
+username: User objectId
+start: Date
+end: Date
+
+Both Dates are stored on the server as UTC time. 
+
+#POST  
+A POST to /api/meetings creates a new meeting object.
+The creator of the meeting is automatically pushed to the admin Array and to participants. The lastUpdated field is set to the Date the meeting was published. The meeting ID is also pushed into the User creating the meeting's meetings Array, so there is a two-way reference.
+
+You can make a POST with the following fields: name, description, date. 
+
+#Single Meetings
+/api/meetings/:meeting_id
+
+#GET
+A single meeting is returned, with populated participants, admin, and availability fields. 
+
+Meetings are formatted as a JSON, with the following fields:
+name - String, which contains the meeting name.
+admin - Array of User ids. When a single meeting is called, this field is populated with references to the whole User objects, not just IDs.
+description - String, a description of the meeting.
+date - Date, the date the meeting is going to be held.
+participants - Array of User Ids. This is also populated when a single meeting is retrieved, but not multiple meetings.
+lastUpdated - Date, whenever the meeting information is updated, this date is refreshed.
+availability - Array of availability objects.
+
+#PUT
+A single meeting can be modified with a PUT request, but only the following fields:
+Name
+Description
+
+[TODO To invite new users to a meeting, you can send them a link to the meeting itself. They will click a button that adds them to a meeting.]
+
+#DELETE
+A delete request to /api/meetings/:meeting_id will do exactly what you think it will. :)
+The response for a successful deletion is a JSON message, Meeting with id: <meeting._id> is removed."
+
+##Users
+/api/users/:user_id
+#GET
+A GET request to /api/users/:user_id will return a copy of the user information for the requested member. Only certain fields will be returned, in JSON format:
+username: String,
+meetings: [Meeting Object IDs]
+
+i.e. no sensitive user information is returned through the API.
+
+[TODO add contact information to user model]
+
+#PUT
+PUT requests to /api/users/:user_id can update certain fields of the User object: the username and the contact information.
+To invite a user to a meeting, you must either send them a link to the meeting page or [TODO add their email address to the 'invite' page when you create a meeting]. The user can then add themselves to the meeting. 
+
+
+

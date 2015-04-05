@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var Schema = mongoose.Schema;
 
 var userSchema = mongoose.Schema({
+	name: String,
+	meetings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
 	local: {
 		email: String,
 		password: String
@@ -23,11 +26,7 @@ var userSchema = mongoose.Schema({
 		token: String,
 		email: String,
 		name: String
-	},
-
-	username: String,
-	meetings: [String]
-
+	}
 });
 
 userSchema.methods.generateHash = function(password) {
@@ -40,12 +39,3 @@ userSchema.methods.validPassword = function(password) {
 
 module.exports = mongoose.model('User', userSchema);
 
-/*
-TODO
-
- - meetings should be an array of Meetings objects
-
- - availability: how to represent availability for multiple users?
-
-
-*/

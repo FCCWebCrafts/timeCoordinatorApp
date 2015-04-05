@@ -10,6 +10,7 @@ Properly configure controller
  */
 var mongoose = require('mongoose');
 var	Meeting = require('../models/meeting');
+var User = require('../models/user');
 var _ = require('lodash');
 
 /**
@@ -19,29 +20,69 @@ var _ = require('lodash');
 exports.create = function(req, res) {
 	var meeting = new Meeting({});
 	meeting = _.assign(meeting, req.body);
-	meeting.admin = "This will eventually save the user id of the creator.";
+
+	// save the creator as the admin
+	meeting.admin.push(req.user._id);
+	meeting.lastUpdated = Date.now();
+
+	// also save the creator as a participant of the meeting
+	meeting.participants.push(req.user._id);
+
+	// and save this meeting id to the user's meetings array
+	User.findById(req.user._id, function(err, user) {
+		if (!user) {
+			return res.status(404);
+		} else {
+		user.meetings.push(meeting._id);
+		user.save(function(err) {
+			if (err) {
+				return res.status(400);
+			} else {
+				console.log("User updated.");
+			}
+		});
+		}	
+	});
+	// now save this meeting itself to the database.
 	meeting.save(function(err) {
 		if (err) {
 			return res.status(400);
 		} else {
-			res.json(meeting);
+			var o = {
+				id: meeting._id,
+				name: meeting.name,
+				admin: meeting.admin,
+				participants: meeting.participants,
+				description: meeting.description,
+				date: meeting.date
+			};
+			res.json(o);
 		}
 	});
 };
 
 /**
- * Shows ONE meeting (list shows all meetings or <<TODO>> allows filtering)
+ * Shows ONE meeting
  */
 exports.read = function(req, res) {
-	Meeting.findById(req.params.meeting_id, function(err, meeting) {
+	Meeting.findById(req.params.meeting_id).populate('admin participants', 'username -_id').populate('availability', 'username').exec(function(err, meeting) {
 		if (err) {
-			res.send(404)
+			return res.sendStatus(404);
 		}
 		if (!meeting) {
-			res.status(404).send("This meeting does not exist.");
+			return res.sendStatus(404).send("This meeting does not exist.");
 		} else {
-		res.json(meeting);
-	}
+			var o = {
+				name: meeting.name,
+				admin: meeting.admin,
+				description: meeting.description,
+				date: meeting.date,
+				participants: meeting.participants,
+				lastUpdated: meeting.lastUpdated,
+				availability: meeting.avail
+			};
+			res.json(o);
+		}
 	});
 };
 
@@ -53,17 +94,27 @@ exports.update = function(req, res) {
 			res.send(404);
 		}
 		meeting = _.assign(meeting, req.body);
+		meeting.lastUpdated = Date.now();
 		meeting.save(function(err) {
 			if (err) {
 				return res.status(400);
-			} 
-			res.json(meeting);
+			} else {
+				var o = {
+					name: meeting.name,
+					id: meeting._id,
+					description: meeting.description,
+					participants: meeting.participants,
+					lastUpdated: meeting.lastUpdated
+				};
+				res.json(o);
+			}
+			
 			
 		});
 	});
 	
 };
-
+// this lists all meetings - should have some sort of filtering available.
 exports.list = function(req, res) {
 	Meeting.find(function(err, meetings) {
 		if (err) {
@@ -72,6 +123,17 @@ exports.list = function(req, res) {
 		res.json(meetings);
 	})
 };
+
+exports.inviteUsers = function(req, res) {
+	// the view will allow the user to select which meeting and which users to invite
+	// should also show which users are already invited
+
+	// each user will get an email sent to them with an invitation
+}
+
+exports.showInvitePanel = function(req, res) {
+	// the view needs to see which 
+}
 
 exports.destroy = function(req, res) {
 	Meeting.findById(req.params.meeting_id, function(err, meeting) {

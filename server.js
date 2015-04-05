@@ -11,9 +11,10 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var passport = require('passport');
+var session = require('express-session');
+var mongoStore = require('connect-mongo')(session);
 
 var port = process.env.PORT || 8080;
-var session = require('express-session')
 
 // route files
 var routes = require('./routes/index');
@@ -22,7 +23,24 @@ var api = require('./routes/api');
 
 var app = express();
 
-app.use(session({ secret: 'FCC is the best' })); // session secret
+// ======= database connection ======
+var configDB = require('./config/database.js');
+mongoose.connect(configDB.url);
+db = mongoose.connection;
+
+// confirmation and error messaging
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  console.log("The database connection is active.");
+});
+
+app.use(session({ secret: 'FCC is the best',
+  resave: false,
+  saveUninitialized: false,
+  store: new mongoStore({mongooseConnection: mongoose.connection})
+                })); // session secret
+
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -80,16 +98,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// ======= database connection ======
-var configDB = require('./config/database.js');
-mongoose.connect(configDB.url);
-db = mongoose.connection;
 
-// confirmation and error messaging
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
-  console.log("The database connection is active.");
-});
 
 var server = app.listen(port, function() {
   console.log("The server is listening on port "+port);

@@ -1,7 +1,9 @@
 // config/passport.js
 
-var LocalStrategy = require('passport-local');
-var TwitterStrategy = require('passport-twitter');
+var LocalStrategy = require('passport-local').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 // where application keys are stored
 var secrets = require('./secrets');
 var User = require('../models/user');
@@ -38,10 +40,10 @@ module.exports = function(passport) {
 					return done(null, false, req.flash('signupMessage', 'That email is already registered here.'));
 				} else {
 					// if the user doesn't exist, create one.
-					var newUser = new User();
+					var newUser = new User({});
 					newUser.local.email = email;
 					newUser.local.password = newUser.generateHash(password);
-
+                    newUser.name = req.body.name;
 					//save the user to the database
 					newUser.save(function(err) {
 						if (err)
@@ -83,7 +85,11 @@ module.exports = function(passport) {
 	*
 	*/
 
-	passport.use(new TwitterStrategy(secrets.twitter,
+	passport.use(new TwitterStrategy({
+		consumerKey: secrets.twitter.consumerKey,
+		consumerSecret: secrets.twitter.consumerSecret,
+		callbackURL: secrets.twitter.callbackURL
+	},
 	function(token, tokenSecret, profile, done) {
 		process.nextTick(function() {
 			User.findOne({ 'twitter.id' : profile.id }, function (err, user) {
@@ -109,4 +115,64 @@ module.exports = function(passport) {
 			});
 		});
 	}));
+
+	// facebook login strategy
+	passport.use(new FacebookStrategy(secrets.facebook, function(token, refreshToken, profile, done) {
+		process.nextTick(function() {
+			User.findOne({ 'facebook.id' : profile.id }, function (err, user) {
+				if (err) 
+					return done(err);
+				if (user) {
+					return done(null, user);
+				} else {
+					var newUser = new User();
+					newUser.facebook.id    = profile.id;                  
+                    newUser.facebook.token = token;              
+                    newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; 
+                    newUser.facebook.email = profile.emails[0].value; 
+
+                    newUser.save(function(err) {
+                    	if (err)
+                    		throw err;
+                    	return done(null, newUser);
+                    });
+				}
+			});
+		});
+	}));
+
+	passport.use(new GoogleStrategy(secrets.google,
+    function(token, refreshToken, profile, done) {
+
+        process.nextTick(function() {
+        	console.log("profile: "+JSON.stringify(profile));
+            User.findOne({ 'google.id' : profile.id }, function(err, user) {
+                if (err)
+                    return done(err);
+
+                if (user) {
+
+                    // if a user is found, log them in
+                    return done(null, user);
+                } else {
+                    // if the user isn't in our database, create a new user
+                    var newUser          = new User();
+
+                    // set all of the relevant information
+                    newUser.google.id    = profile.id;
+                    newUser.google.token = token;
+                    newUser.google.name  = profile.displayName;
+                    newUser.google.email = profile.emails[0].value; 
+
+                    // save the user
+                    newUser.save(function(err) {
+                        if (err)
+                            throw err;
+                        return done(null, newUser);
+                    });
+                }
+            });
+        });
+
+    }));
 };

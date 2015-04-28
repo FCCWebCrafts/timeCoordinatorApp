@@ -1,7 +1,6 @@
 /*
 Properly configure controller
 */
-/*jshint node: true*/
 
 'use strict';
 
@@ -117,14 +116,25 @@ exports.list = function(req, res) {
 };
 
 exports.inviteUsers = function(req, res) {
-	// the view will allow the user to select which meeting and which users to invite
+  //this should be done from the single meeting view 
+// the view will allow the user to select which meeting and which users to invite
+  //needs to check if the requested user is in database
+  //if the user is in the database add to meeting.particpants
+
+  //if user is not in database send email to invite 
+  //add a pending particpant number or icon
 	// should also show which users are already invited
 
 	// each user will get an email sent to them with an invitation
 };
 
 exports.showInvitePanel = function(req, res) {
-	// TODO for email invite
+  // TODO for email invite
+    //needs to check if the requested user is in database
+    //if the user is in the database add to meeting.particpants
+
+    //if user is not in database send email to invite 
+      //add a pending particpant number or icon
 };
 
 

@@ -1,0 +1,20 @@
+form.loginsignup(ng-submit='login()')
+  h1 User Log In
+  .inset
+    p: label(for="email") Email Address:
+      input(type="text" name="email" ng-model='user.local.email')
+    p: label(for="password") Password:
+      input(type="password" name="password" ng-model='user.local.password')
+    p: label(for="remember") Remember Me 
+      input(type="checkbox" name="remember" id="remember")
+    p: .p-container: span
+      a(href='/signup') SignUp
+      a(href="#") Forgot Password?
+
+      p: button.btn.logonbtn(type='submit' ) Login
+      p: a.btn.logonbtn#facebooklog(target='_self' href='/auth/facebook') Sign in with Facebook
+      p: a.btn.logonbtn#googlelog(target='_self' href='/auth/google') Sign in with Google
+      p: a.btn.logonbtn#tweetlog(target='_self' href='/auth/twitter'): img(src='/img/twitter-link.png' alt='signin with twiter')
+      p: a.btn.logonbtn#githublog(target='_self' href='/auth/github') Sign in with GitHub
+
+

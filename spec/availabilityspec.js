@@ -1,0 +1,3 @@
+describe('TimeCoordinator.Availibility', function () {
+  
+});

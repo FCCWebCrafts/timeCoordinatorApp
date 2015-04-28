@@ -12,7 +12,7 @@ var moment = require('moment-timezone');
 
 exports.addAvail = function(req, res) {
 	// create a new object
-	var avail = new Avail({});
+	var avail = new Avail();
 
 	var startTime = moment(req.body.start, "YYYY-MM-DD HH:mm");
 	var endTime = moment(req.body.end, "YYYY-MM-DD HH:mm");
@@ -31,6 +31,7 @@ exports.addAvail = function(req, res) {
 			return res.sendStatus(500);
 		} else {
 			meeting.availability.push(avail);
+          	// save the meeting
 			meeting.save(function(err) {
 				if (err) {
 					res.status(500);
@@ -40,5 +41,4 @@ exports.addAvail = function(req, res) {
 			});
 		}
 	});
-	
 };

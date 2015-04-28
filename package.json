@@ -32,5 +32,10 @@
     "passport-twitter": "^1.0.3",
     "passport-github": "latest",
     "serve-favicon": "~2.2.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-jasmine-runner": "^0.6.0",
+    "gulp": "^3.8.11"
   }
 }

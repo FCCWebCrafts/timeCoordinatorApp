@@ -1,4 +1,6 @@
-div
+div(style='height: 40px;')
+    a.pull-right(target='_self' href="logout") Log out
+div.display-box
   button.btn.pull-right(ng-click="toggleEditMode(singlemeeting)") {{editmode ? 'Disable Editing' : 'Enable Editing'}}
   h3(ng-model='singlemeeting.name' ng-attr-contenteditable='{{editmode}}') {{singlemeeting.name}}
   p(ng-hide='editmode') Date: {{singlemeeting.date | date: 'd MMM, y'}}
@@ -7,4 +9,13 @@ div
   p(ng-model='singlemeeting.description' ng-attr-contenteditable='{{editmode}}') {{singlemeeting.description}}
   ul(ng-repeat='participant in participants') Participants:
     li {{participant.name}}
-  
+  div(ng-controller='AvailabilityController')
+    ul(ng-repeat='availability in availabilitys')
+      li
+        div {{availability.username}}
+        hr
+        p {{availability.start}} -- {{availability.end}}
+    form(name='availabilityForm' ng-submit='saveAvail()' role='form')
+      input(type='time' ng-model='newavailability.start' ng-required='true')
+      input(type='time' ng-model='newavailability.end' ng-required='true')
+      button.btn(type='submit') Submit

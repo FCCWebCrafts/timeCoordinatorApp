@@ -11,7 +11,7 @@ var users = require('../controllers/users');
 var avail = require('../controllers/availability');
 
 // API routes
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   console.log("Show API documentation here.");
 });
 
@@ -19,15 +19,9 @@ router.get('/', function(req, res, next) {
 router.use(isLoggedIn);
 
 function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	// if they are not logged in, save the
-	// current page they're trying to get to
-	// this way they can come back after authenticating
-	req.session.returnTo = "/api"+req.url;
-	console.log("User is not logged in.");
-	res.redirect('/login');
+	if (!req.isAuthenticated()) {
+		res.status(401);
+	} next();
 }
 
 // 		MEETINGS ROUTES
@@ -36,12 +30,8 @@ function isLoggedIn(req, res, next) {
 // one meeting
 router.route('/meetings/:meeting_id')
 	.get(meetings.read)
-	.post(meetings.update)
+	.put(meetings.update)
 	.delete(meetings.destroy);
-
-router.route('/meetings/:meeting_id/add-availability')
-	// TODO a GET route with a form
-	.post(avail.addAvail);
 
 router.route('/meetings/join/:meeting_id')
 	.post(users.joinMeeting);
@@ -68,7 +58,18 @@ router.route('/users/:user_id')
 	// only shows one user, and sanitizes the user information
 	// cannot create or delete users 
 	.get(users.read)
-	.post(users.editProfile);
+	.post(users.update);
+
+//      AVAILABILITY ROUTES
+//============================
+
+//router.route('/meetings/:meeting_id/availability/:availability_id')
+//    .get(avail.read);
+//	//.put(avail.update);
+
+router.route('/meetings/:meeting_id/availability')
+    .get(avail.list)
+    .post(avail.addAvail);
 
 
 module.exports = router;

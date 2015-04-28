@@ -2,15 +2,14 @@ var express = require('express');
 var router = express.Router();
 // give access to the auth strategies we wrote in config/passport
 var passport = require('passport');
-var User = require('../models/user');
-var users = require('../controllers/users');
-var meetings = require('../controllers/meetings');
 
-// Routes for index 
+// Routes for index
+
+//app initial entry point
 router.route('/')
-	.get(function (req, res, next) {
-		res.render('login');
-	});
+	.get(function (req, res) {
+		res.render('index');
+});
 
 //making the jade partials for angular views display
 router.get('/partials/:name', function(req, res) {
@@ -20,48 +19,33 @@ router.get('/partials/:name', function(req, res) {
 
 // LOCAL strategy sign up 
 router.route('/signup')
-	.get(function (req, res) {
-		res.render('signup.jade', {message: req.flash('signupMessage')});
-	})
 	.post(passport.authenticate('local-signup', {
 		successReturnToOrRedirect: 'profile',
 		failureRedirect: '/signup',
 		failureFlash: true
-	}));
+}));
 
 router.route('/login')
-	.get(function (req, res, next) {
-		res.render('login', {title: 'Login', message: req.flash('loginMassage')});
-	})
 	.post(passport.authenticate('local-login', {
 		successReturnToOrRedirect: '/profile',
 		failureRedirect: '/login',
 		failureFlash: true
-	}));
-
-
-router.route('/profile')
-  .get(isLoggedIn, function (req, res) {
-  res.render('profile', {user: req.user});
-  });
-
-
-router.get('/profile/edit', isLoggedIn, function(req, res) {
-		res.render('editprofile', {user: req.user});
-	})
-    .post('/profile/edit/update', users.editProfile);
+}));
 
 router.route('/logout')
 	.get(function (req, res) {
 		req.logout();
-		res.redirect('/');
-	});
+		res.redirect('index');
+});
 
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	console.log("User is not logged in.");
-	res.redirect('/login');
-}
+router.route('/loggedin') 
+  .get(function(req, res) {
+    res.send(req.isAuthenticated() ? req.user._id : '0');
+});
+
+//catch all route
+router.get('*', function (req, res) {
+  res.render('index');
+});
+
 module.exports = router;

@@ -5,8 +5,8 @@ block navbar
       a.navbar-brand(href="#") Time Coordinator App
     div.collapse.navbar-collapse(id="main-nav")
       ul.nav.navbar-nav
-        li: a(href="#") Thing 1
-        li: a(href="#") Thing 2
-        li: a(href="#") Thing 3
+        li: a(ui-sref="profile") Profile
+        li: a(ui-sref="upcomingmeetings") Upcoming Meetings
+        li: a(ui-sref="createmeetings") Create A Meeting
       if user
-        p.navbar-text.pull-right Signed in as #{user.name}
+        p.navbar-text.pull-right Signed in as {{user.name}}

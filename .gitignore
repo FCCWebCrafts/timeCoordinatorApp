@@ -3,3 +3,5 @@ nbproject/private/
 .env
 .DS_Store
 /bower_components
+.jshintrc
+gruntfile.js

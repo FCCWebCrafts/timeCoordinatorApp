@@ -105,6 +105,7 @@ input[type=text],
 input[type=password],
 input[type=email],
 input[type=date],
+input[type=time],
 textarea{
   color: white;
   width:100%;
@@ -223,7 +224,8 @@ label:hover ~ input[type=password] {
   background: #235;
   border-radius: 0.4em;
   box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
-  padding: 10px;
+  padding: 25px;
+  height: auto
 
 }
 .display-box a{

@@ -1,5 +1,3 @@
-/*jshint devel: true*/
-/*globals angular, window*/
 angular.module('TimeCoordinator.Meetings', [])
 //meeting controller
   .controller('MeetingController', ['$scope', '$state', '$stateParams', 'Meetings', 'popupService', function($scope, $state, $stateParams, Meetings, popupService) {
@@ -30,6 +28,8 @@ angular.module('TimeCoordinator.Meetings', [])
     $scope.singlemeeting = data;
     //allows the participants of each meeting to be listed
     $scope.participants = data.participants;
+    $scope.availabilitys = data.availability;
+    $scope.singlemeeting.date = new Date(data.date);
   });
   //activates inline editing
   $scope.editmode = false;

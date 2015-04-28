@@ -19,8 +19,8 @@ router.get('/twitter/callback', passport.authenticate('twitter',{
 
 router.get('/facebook', passport.authenticate('facebook', {scope: 'email'}));	// scope:email just asks for the user's email address
 router.get('/facebook/callback', passport.authenticate('facebook', {
-	successReturnToOrRedirect: '/profile',
-	failureRedirect: '/login'
+	successReturnToOrRedirect: '/index',
+	failureRedirect: '/index'
 }));
 
 router.get('/google', passport.authenticate('google', { scope: ['email profile']}));
@@ -33,7 +33,7 @@ router.get('/github', passport.authenticate('github', {scope: 'user'}));
 router.get('/github/callback', passport.authenticate('github', {
   successReturnToOrRedirect: '/profile',
   failureRedirect: '/login'
-}))
+}));
 
 //==========================================
 //Authorization, Already Logged In/ Connect to current account

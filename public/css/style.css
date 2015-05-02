@@ -68,11 +68,10 @@ h2{
 
 .inset {
   padding:20px;
-  border-top:1px solid #19191a;
+  border-top:1px solid #333;
 }
 
-form h1 {
-  font-size:18px;
+.loginsignup h1 {
   text-shadow:0 1px 0 black;
   text-align:center;
   padding:15px 0;
@@ -80,7 +79,7 @@ form h1 {
   position:relative;
 }
 
-form h1:after {
+.loginsignup h1:after {
   content:"";
   display:block;
   width:250px;

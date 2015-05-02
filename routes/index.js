@@ -18,24 +18,44 @@ router.get('/partials/:name', function(req, res) {
 });
 
 // LOCAL strategy sign up 
-router.route('/signup')
-	.post(passport.authenticate('local-signup', {
-		successReturnToOrRedirect: 'profile',
-		failureRedirect: '/signup',
-		failureFlash: true
-}));
+router.post('/servsignup', function(req, res, next) {
+  passport.authenticate('local-signup', function(err, user, info){
+    if (err) {
+      return res.json(err);
+    }
+    if (user.error) {
+      return res.json({error: user.error});
+    }
+    req.logIn(user, function(err) {
+      if(err){
+        return res.json(err);
+      }
+      return res.json({redirect: '/meetings'}, user._id);
+    });
+  })(req, res);
+});
 
-router.route('/login')
-	.post(passport.authenticate('local-login', {
-		successReturnToOrRedirect: '/meetings',
-		failureRedirect: '/login',
-		failureFlash: true
-}));
+router.post('/servlogin', function(req, res, next){
+  passport.authenticate('local-login', function(err, user, info){
+  if (err) {
+    return res.json(err);
+  }
+  if(user.error) {
+    return res.json({error: user.error});
+  }
+  req.logIn(user, function(err){
+    if(err){
+      return res.json(err);
+    }
+    return res.json({redirect: '/meetings'}, user._id);
+  });
+})(req, res);
+});
 
 router.route('/logout')
 	.get(function (req, res) {
 		req.logout();
-		res.redirect('index');
+		res.redirect('/login');
 });
 
 router.route('/loggedin') 

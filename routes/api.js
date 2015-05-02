@@ -20,7 +20,7 @@ router.use(isLoggedIn);
 
 function isLoggedIn(req, res, next) {
 	if (!req.isAuthenticated()) {
-		res.status(401);
+		return res.status(401);
 	} next();
 }
 

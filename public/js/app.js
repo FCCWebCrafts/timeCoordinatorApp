@@ -28,12 +28,11 @@ angular.module('TimeCoordinator', [
       }
     };
   });
-  var checkLoggedIn = function($q, $timeout, $http, $state, $rootScope) {
+  var checkLoggedIn = function($q, $timeout, $http, $state) {
   var deferred = $q.defer();
   $http.get('/loggedin').success(function(user){
     if (user !== '0'){
       deferred.resolve();
-      $rootScope.user = user;
     }else{
       deferred.reject();
       $state.go('login');
@@ -45,13 +44,13 @@ angular.module('TimeCoordinator', [
   .state('login', {
   url: '/login',
   templateUrl: 'partials/login.jade',
-  controller: 'AuthController'
+  controller: 'LoginController'
   })
 
   .state('signup', {
     url: '/signup',
     templateUrl: 'partials/signup.jade',
-    controller: 'AuthController'
+    controller: 'SignupController'
   })
     
   .state('profile',{

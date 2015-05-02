@@ -1,12 +1,12 @@
-form.loginsignup(action="/signup" method="post")
-    h1 User Sign Up
-    .inset
-      p: label(for='name') Name:
-        input(type='text' name='name' id='name' required)
-      p: label(for="email") Email Address:
-        input(type="text" name="email"  id="email" required)
-      p: label(for="password") Password:
-        input(type="password" name="password" id="password" required)
-      p: label(for="remember")
-
-    input(type="submit" value="Sign Up")
+.loginsignup
+  h1 User Sign Up
+  .inset
+    form(ng-submit='signUp()')
+      label(for='name') Name:
+      input.form-control(type='text' name='name' id='name' ng-model='credentials.name' ng-required='false')
+      label(for="email") Email Address:
+      input.form-control(type="email" name="email"  ng-model='credentials.email' ng-required='true')
+      label(for="password") Password:
+      input.form-control(type="password" name="password" ng-model='credentials.password' ng-required='true')
+      label(for="remember")
+      button.btn.logonbtn(type="submit") {{buttonText}}

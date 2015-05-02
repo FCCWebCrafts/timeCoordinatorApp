@@ -5,3 +5,6 @@ nbproject/private/
 /bower_components
 .jshintrc
 gruntfile.js
+.bowerrc
+bower.json
+/public/lib/angular-mocks.js

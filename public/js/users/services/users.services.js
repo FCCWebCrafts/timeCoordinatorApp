@@ -1,7 +1,6 @@
-/*global angular*/
 angular.module('TimeCoordinator.Users')
   .factory('ActiveUser', ['$resource', function($resource) {
-    return $resource('/api/users/:user_id', {
+    return $resource('/api/users/:user_id', {id: '@id'},{
       update: 'PUT'
     });
   }])

@@ -12,25 +12,25 @@ var passport = require('passport');
 router.route('/twitter')
 	.get(passport.authenticate('twitter'));
 router.get('/twitter/callback', passport.authenticate('twitter',{
-	successReturnToOrRedirect: '/profile',
+	successReturnToOrRedirect: '/meetings',
 	failureRedirect: '/login'
 }));
 
 router.get('/facebook', passport.authenticate('facebook', {scope: 'email'}));	// scope:email just asks for the user's email address
 router.get('/facebook/callback', passport.authenticate('facebook', {
-	successReturnToOrRedirect: '/index',
-	failureRedirect: '/index'
+	successReturnToOrRedirect: '/meetings',
+	failureRedirect: '/login'
 }));
 
 router.get('/google', passport.authenticate('google', { scope: ['email profile']}));
 router.get('/google/callback', passport.authenticate('google', {
-	successReturnToOrRedirect: '/profile',
+	successReturnToOrRedirect: '/meetings',
 	failureRedirect: '/login'
 }));
 
 router.get('/github', passport.authenticate('github', {scope: 'user'}));
 router.get('/github/callback', passport.authenticate('github', {
-  successReturnToOrRedirect: '/profile',
+  successReturnToOrRedirect: '/meetings',
   failureRedirect: '/login'
 }));
 
@@ -42,8 +42,8 @@ router.get('/connect/facebook', passport.authorize('facebook', {scope: 'email'})
 
 router.get('/connect/facebook/callback',
           passport.authorize('facebook', { 
-            successRedirect: '/profile',
-            failureRedirect: '/'
+            successReturnToOrRedirect: '/profile',
+            failureRedirect: '/profile'
           }));
 
 //Twitter---------------
@@ -51,8 +51,8 @@ router.get('/connect/twitter', passport.authorize('twitter', {scope: 'email'}));
 
 router.get('/connect/twitter/callback',
            passport.authorize('twitter', { 
-  successRedirect: '/profile',
-  failureRedirect: '/'
+  successReturnToOrRedirect: '/profile',
+  failureRedirect: '/profile'
 }));
 
 //Google---------------
@@ -60,15 +60,15 @@ router.get('/connect/google', passport.authorize('google', {scope: ['profile', '
 
 router.get('/connect/google/callback',
            passport.authorize('google', { 
-  successRedirect: '/profile',
-  failureRedirect: '/'
+  successReturnToOrRedirect: '/profile',
+  failureRedirect: '/profile'
 }));
 
 //github-----------
 router.get('/connect/github', passport.authorize('github', {scope: 'user'}));
 router.get('/connect/github/callback', passport.authorize('github', {
   successReturnToOrRedirect: '/profile',
-  failureRedirect: '/'
+  failureRedirect: '/profile'
 }));
 
 //=====================

@@ -38,10 +38,10 @@ module.exports = function(passport) {
 					return done(err);
 				// if it finds a user ...
 				if (user) {
-					return done(null, false, req.flash('signupMessage', 'That email is already registered here.'));
+					return done(null, {error: 'This email is already registered here'}, req.flash('signupMessage', 'That email is already registered here.'));
 				} else {
 					// if the user doesn't exist, create one.
-					var newUser = new User({});
+					var newUser = new User();
 					newUser.local.email = email;
 					newUser.local.password = newUser.generateHash(password);
                     newUser.name = req.body.name;
@@ -62,24 +62,26 @@ module.exports = function(passport) {
 		passReqToCallback: true
 	},
 	function(req, email, password, done) {
+      process.nextTick(function() {
 		// find the user trying to login
 		User.findOne({'local.email' : email}, function (err, user) {
 			// error handler first
 			if (err)
 				return done(err);
-
 			// if no user is found
 			if (!user)
-				return done(null, false, req.flash('loginMessage', "No user found."));
+				return done(null, {error: 'no user found.'}, req.flash('loginMessage', "No user found."));
 
 			// user found but wrong password
 			if (!user.validPassword(password))
-				return done(null, false, req.flash('loginMessage', "Wrong password."));
+				return done(null, {error: "wrong password!"}, req.flash('loginMessage', "Wrong password."));
 
 			// found the user and the password is correct, log them in
 			return done(null, user);
 		});
+      });
 	}));
+    
 
 	/*	TWITTER login/auth strategy
 	*
@@ -258,7 +260,7 @@ module.exports = function(passport) {
             user.save(function(err){
               if(err)
                 throw err;
-              return done(null, user)
+              return done(null, user);
             });
           }
         });

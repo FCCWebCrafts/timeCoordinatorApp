@@ -1,7 +1,7 @@
-form.loginsignup(ng-submit='login()')
+.loginsignup
   h1 User Log In
   .inset
-    form.form-signin(ng-submit='login(email, password)')
+    form(ng-submit='login()')
       .alert.alert-danger(ng-show='invalidLogin') Invalid Email/Password
       input.form-control(type='email' placeholder='Email' name='email' ng-model='credentials.email' ng-required='true')
       input.form-control(type='password' placeholder='Password' name='password' ng-model='credentials.password' ng-required='true')
@@ -10,11 +10,11 @@ form.loginsignup(ng-submit='login()')
       p: .p-container: span
         a(href='/signup') SignUp
         a(href="#") Forgot Password?
-    div
-      p: button.btn.logonbtn(type='submit' ) {{buttonText}}
-      p: a.btn.logonbtn#facebooklog(target='_self' href='/auth/facebook') Sign in with Facebook
-      p: a.btn.logonbtn#googlelog(target='_self' href='/auth/google') Sign in with Google
-      p: a.btn.logonbtn#tweetlog(target='_self' href='/auth/twitter'): img(src='/img/twitter-link.png' alt='signin with twiter')
-      p: a.btn.logonbtn#githublog(target='_self' href='/auth/github') Sign in with GitHub
+      div
+        p: button.btn.logonbtn(type='submit' ) {{buttonText}}
+        p: a.btn.logonbtn#facebooklog(target='_self' href='/auth/facebook') Sign in with Facebook
+        p: a.btn.logonbtn#googlelog(target='_self' href='/auth/google') Sign in with Google
+        p: a.btn.logonbtn#tweetlog(target='_self' href='/auth/twitter'): img(src='/img/twitter-link.png' alt='signin with twiter')
+        p: a.btn.logonbtn#githublog(target='_self' href='/auth/github') Sign in with GitHub
 
 
